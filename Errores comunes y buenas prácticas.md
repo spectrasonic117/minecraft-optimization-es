@@ -18,10 +18,6 @@ Bukkit y Spigot están básicamente en modo mantenimiento. Se actualizan cada ve
 
 Los alojamientos compartidos suelen ser la opción más barata, y eso es por una razón válida. Te ofrecen 2 tipos de recursos - garantizados y compartidos. Los recursos garantizados suelen ser irrisoriamente bajos y pueden no ser suficientes para hacer funcionar un servidor para unos pocos jugadores. Por otro lado, los recursos compartidos suelen ser suficientes para hacer funcionar un servidor con un rendimiento decente. Los recursos compartidos, como su nombre indica, se comparten entre tu servidor y otros servidores de la misma máquina física. Tu servidor sólo puede beneficiarse de tenerlos cuando ningún otro servidor los utiliza. La situación en la que tu servidor utiliza totalmente los recursos compartidos es prácticamente imposible, ya que la mayoría de los alojamientos compartidos sobrevenden sus recursos. Al igual que los billetes de avión, el sitio de alojamiento vende más recursos de los que tiene disponibles con la esperanza de que no se utilicen todos. Esto a menudo lleva a situaciones en las que todos los servidores están atascados porque no hay suficientes recursos de sobra.
 
-## Evita los datapacks que usan funciones de comando
-
-Los paquetes de datos que ejecutan comandos son extremadamente lentos. Puede que no sea mucho con pocos jugadores, pero eso no se escala bien con el número de jugadores y hará que tu servidor se ralentice rápidamente a medida que ganes jugadores. Los paquetes de datos que modifican biomas, tablas de botín, etc. están bien. Es mejor que busques un plugin alternativo.
-
 ## Evite Datapacks que usen funciones de comando.
 
 Los datapacks que ejecutan comandos son extremadamente lentos. Puede que no sea mucho con pocos jugadores, pero eso no escala bien con el número de jugadores y hará que tu servidor se ralentice rápidamente a medida que ganes jugadores. Los paquetes de datos que modifican biomas, tablas de botín, etc. están bien. Es mejor que busques un plugin alternativo.
