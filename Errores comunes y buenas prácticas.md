@@ -22,8 +22,8 @@ Los alojamientos compartidos suelen ser la opción más barata, y eso es por una
 
 Los paquetes de datos que ejecutan comandos son extremadamente lentos. Puede que no sea mucho con pocos jugadores, pero eso no se escala bien con el número de jugadores y hará que tu servidor se ralentice rápidamente a medida que ganes jugadores. Los paquetes de datos que modifican biomas, tablas de botín, etc. están bien. Es mejor que busques un plugin alternativo.
 
-## Avoid datapacks that use command functions.
+## Evite Datapacks que usen funciones de comando.
 
-Datapacks that run commands are extremely slow. It may not be much with few players, but that doesn't scale well with the number of players and will cause your server to slow down quickly as you gain players. Data packs that modify biomes, loot tables, etc. are fine. You're better off looking for an alternative plugin.
+Los datapacks que ejecutan comandos son extremadamente lentos. Puede que no sea mucho con pocos jugadores, pero eso no escala bien con el número de jugadores y hará que tu servidor se ralentice rápidamente a medida que ganes jugadores. Los paquetes de datos que modifican biomas, tablas de botín, etc. están bien. Es mejor que busques un plugin alternativo.
 
-You should absolutely avoid Hard Drives (HDDs). Their speeds are simply way too slow to justify running a server on them since minecraft is heavy on I/O operations (especially with high view distances and higher player counts). A Solid State drive (SSD) is a far better choice because of it's much faster I/O.
+Debes evitar absolutamente los discos duros (HDDs). Sus velocidades son simplemente demasiado lento para justificar la ejecución de un servidor en ellos desde Minecraft es pesado en las operaciones de E / S (especialmente con altas distancias de visión y un mayor número de jugadores). Una unidad de estado sólido (SSD) es una opción mucho mejor debido a que es mucho más rápido de E / S.
