@@ -1,14 +1,14 @@
 # Guia de Optimizacion de Servidores de Minecraft
 
-> _Nota para los usuarios que están en vanilla, Fabric o Spigot (o cualquier cosa por debajo de Paper) - vaya a su server.properties y cambie `sync-chunk-writes` a `false`. Esta opción está forzosamente establecida en false en Paper y sus bifurcaciones, pero en otras implementaciones de servidor necesitas cambiarla a false manualmente. Esto permite al servidor guardar trozos fuera del hilo principal, disminuyendo la carga en el bucle principal._
+> _Nota para los usuarios que están en Vanilla, Fabric o Spigot (o cualquier fork de **Paper**) - vaya a su server.properties y cambie `sync-chunk-writes` a `false`. Esta opción está forzosamente establecida en false en Paper y sus forks, pero en otras implementaciones de servidor necesitas cambiarla a false manualmente. Esto permite al servidor guardar chunks fuera del hilo principal, disminuyendo la carga en el bucle principal._
 
-# Guía para la versión 1.20. Algunas cosas todavía pueden aplicarse a 1.15 - 1.19.
+# Guía para la versión 1.20 - 1.21, algunas cosas todavía pueden aplicarse a 1.15 - 1.19.
 
 Basada en [esta guía](https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/) y otras fuentes (todas ellas están enlazadas a lo largo de la guía cuando son relevantes).
 
 Utilice la tabla de contenidos situada más arriba (junto a `README.md`) para navegar fácilmente por esta guía.
 
-# Intro
+# Introducción
 
 Nunca habrá una guía que te dé resultados perfectos. Cada servidor tiene sus propias necesidades y límites sobre cuánto puedes o estás dispuesto a sacrificar. Juguetear con las opciones para ajustarlas a las necesidades de tu servidor es de lo que se trata. Esta guía sólo pretende ayudarte a entender qué opciones tienen impacto en el rendimiento y qué cambian exactamente. Si crees que has encontrado información incorrecta en esta guía, eres libre de abrir una incidencia o hacer un pull request para corregirla.
 
@@ -24,20 +24,20 @@ Las mejores opciones recomendadas:
 -   [Pufferfish](https://github.com/pufferfish-gg/Pufferfish)- Fork de Paper que pretende mejorar aún más el rendimiento del servidor.
 -   [Purpur](https://github.com/PurpurMC/Purpur)- Fork de Pufferfish centrado en las características y la libertad de personalización.
 
-Usted debe mantenerse alejado de:
+Evita estos JARs de servidor:
 
 -   Cualquier JAR de servidor de pago que reclame async cualquier cosa - 99,99% de posibilidades de ser una estafa.
 -   Bukkit/CraftBukkit/Spigot - Extremadamente anticuado en términos de rendimiento comparado con otro software de servidor al que tenga acceso.
--   Cualquier plugin/software que habilite/deshabilite/recargue plugins en tiempo de ejecución. Vea [esta sección](#plugins-enablingdisabling-other-plugins) para entender por qué.
--   Muchas bifurcaciones posteriores a Pufferfish o Purpur encontrarán inestabilidad y otros problemas. Si busca más ganancias de rendimiento, optimice su servidor o invierta en un fork privado personal.
+-   Cualquier plugin/software que habilite/deshabilite/recargue plugins en tiempo de ejecución. Vea [esta sección](#plugins-enablingdisabling-other-plugins) para entender por qué [**PLUGMAN**].
+-   Versiones inestables de Paper, Pufferfish o Purpur, estos pueden causar inestabilidad y otros problemas. Si buscas rendimiento, optimice el servidor o invierta en un fork privado personal.
 
 ## Pre-generacion de mapa
 
 La pregeneración de mapas, gracias a varias optimizaciones a la generación de chunk añadidas a lo largo de los años, ahora sólo es útil en servidores con CPUs terribles, de un solo hilo o limitadas. Sin embargo, la pregeneración se utiliza comúnmente para generar chunks para plugins de mapas del mundo como Pl3xMap o Dynmap.
 
-Si aún así quieres pregenerar el mundo, puedes usar un plugin como [Chunky](https://github.com/pop4959/Chunky) para hacerlo. Asegúrate de establecer un borde del mundo para que tus jugadores no generen nuevos trozos. Ten en cuenta que la pregeneración puede tardar horas dependiendo del radio que establezcas en el plugin de pregeneración. Ten en cuenta que con Paper y superiores tus tps no se verán afectados por la carga de chunks, pero la velocidad de carga de chunks puede ralentizarse significativamente cuando la cpu de tu servidor está sobrecargada.
+Si aún así quieres pregenerar el mundo, puedes usar un plugin como [**Chunky**](https://github.com/pop4959/Chunky) para hacerlo. Asegúrate de establecer un borde del mundo para que tus jugadores no generen nuevos chunks. Ten en cuenta que la pregeneración puede tardar horas dependiendo del radio que establezcas en el plugin. Ten en cuenta que con Paper y superiores tus tps no se verán afectados por la carga de chunks, pero la velocidad de carga de chunks puede ralentizarse significativamente cuando la cpu de tu servidor está sobrecargada
 
-It's key to remember that the overworld, nether and the end have separate world borders that need to be set up for each world. The nether dimension is 8x smaller than the overworld (if not modified with a datapack), so if you set the size wrong your players might end up outside of the world border!
+Es clave recordar que el Overworld, el Nether y el End tienen bordes de mundo separados que deben configurarse para cada mundo. La dimensión del nether es 1/o más pequeña que el Overworld (si no se modifica con un datapack), así que si configuras el tamaño incorrectamente, tus jugadores podrían terminar fuera del borde del mundo
 
 **Asegúrate de configurar un borde de mundo vainilla (`/worldborder set [diameter]`), ya que limita ciertas funcionalidades como el rango de búsqueda de mapas del tesoro que puede causar picos de lag.**
 
@@ -75,15 +75,15 @@ Puedes habilitar el sistema de keepalive alternativo de Purpur para que los juga
 
 `Good starting value: 4`
 
-La distancia de simulación es la distancia en trozos alrededor del jugador que el servidor marcará. Esencialmente es la distancia desde el jugador a la que sucederán las cosas. Esto incluye hornos de fundición, cultivos y árboles jóvenes creciendo, etc. Esta es una opción que querrás poner baja a propósito, en algún lugar alrededor de `3` o `4`, debido a la existencia de `view-distance`. Esto permite cargar más trozos sin marcarlos. Esto permite a los jugadores ver más lejos sin el mismo impacto en el rendimiento.
+La distancia de simulación es la distancia en chunks alrededor del jugador que el servidor marcará. Esencialmente es la distancia desde el jugador a la que sucederán las cosas. Esto incluye hornos de fundición, cultivos y árboles jóvenes creciendo, etc. Esta es una opción que querrás poner baja a propósito, en algún lugar alrededor de `3` o `4`, debido a la existencia de `view-distance`. Esto permite cargar más chunks sin marcarlos. Esto permite a los jugadores ver más lejos sin el mismo impacto en el rendimiento.
 
 #### view-distance
 
 `Good starting value: 7`
 
-Esta es la distancia en trozos que se enviará a los jugadores, similar a la distancia de vista sin pulsar del papel.
+Esta es la distancia en chunks que se enviará a los jugadores, similar a la distancia de vista sin pulsar del papel.
 
-La distancia total de la vista será igual al mayor valor entre `distancia-simulación` y `distancia-vista`. Por ejemplo, si la distancia de simulación es 4, y la distancia de vista es 12, la distancia total enviada al cliente será de 12 trozos.
+La distancia total de la vista será igual al mayor valor entre `distancia-simulación` y `distancia-vista`. Por ejemplo, si la distancia de simulación es 4, y la distancia de vista es 12, la distancia total enviada al cliente será de 12 chunks.
 
 ### [spigot.yml](https://www.spigotmc.org/wiki/spigot-configuration/)
 
@@ -99,19 +99,19 @@ Este valor sobrescribe server.properties uno si no se establece en `default`. Us
 
 `Good starting value: 10s`
 
-Esta opción le permite configurar cuánto tiempo permanecerán cargados los chunks después de que un jugador se vaya. Esto ayuda a no cargar y descargar constantemente los mismos trozos cuando un jugador va y viene. Valores demasiado altos pueden resultar en que se carguen demasiados chunks a la vez. En áreas que son frecuentemente teletransportadas y cargadas, considera mantener el área permanentemente cargada. Esto será más ligero para tu servidor que cargar y descargar trozos constantemente.
+Esta opción le permite configurar cuánto tiempo permanecerán cargados los chunks después de que un jugador se vaya. Esto ayuda a no cargar y descargar constantemente los mismos chunks cuando un jugador va y viene. Valores demasiado altos pueden resultar en que se carguen demasiados chunks a la vez. En áreas que son frecuentemente teletransportadas y cargadas, considera mantener el área permanentemente cargada. Esto será más ligero para tu servidor que cargar y descargar chunks constantemente.
 
 #### max-auto-save-chunks-per-tick
 
 `Good starting value: 8`
 
-Le permite ralentizar el ahorro incremental de mundo repartiendo la tarea en el tiempo aún más para un mejor rendimiento medio. Es posible que desee establecer este más alto que `8` con más de 20-30 jugadores. Si el guardado incremental no puede terminar a tiempo, bukkit guardará automáticamente los trozos sobrantes de una vez y comenzará el proceso de nuevo.
+Le permite ralentizar el ahorro incremental de mundo repartiendo la tarea en el tiempo aún más para un mejor rendimiento medio. Es posible que desee establecer este más alto que `8` con más de 20-30 jugadores. Si el guardado incremental no puede terminar a tiempo, bukkit guardará automáticamente los chunks sobrantes de una vez y comenzará el proceso de nuevo.
 
 #### prevent-moving-into-unloaded-chunks
 
 `Good starting value: true`
 
-Cuando está activada, evita que los jugadores se desplacen a trozos no cargados y causen cargas de sincronización que atascan el hilo principal causando lag. La probabilidad de que un jugador tropiece con un trozo descargado es mayor cuanto menor sea la distancia de visión.
+Cuando está activada, evita que los jugadores se desplacen a chunks no cargados y causen cargas de sincronización que atascan el hilo principal causando lag. La probabilidad de que un jugador tropiece con un trozo descargado es mayor cuanto menor sea la distancia de visión.
 
 #### entity-per-chunk-save-limit
 
@@ -146,7 +146,7 @@ Con la ayuda de esta entrada puedes establecer límites a cuantas entidades de u
 
 `Good starting value: 8`
 
-Especifica la cantidad máxima de trozos que un proyectil puede cargar durante su vida. Si se reduce, se reducirán las cargas de trozos causadas por proyectiles de entidad, pero podrían producirse problemas con tridentes, enderpearls, etc.
+Especifica la cantidad máxima de chunks que un proyectil puede cargar durante su vida. Si se reduce, se reducirán las cargas de chunks causadas por proyectiles de entidad, pero podrían producirse problemas con tridentes, enderpearls, etc.
 
 ---
 
@@ -192,7 +192,7 @@ Esta opción establece la frecuencia (en ticks) con la que el servidor intenta d
 
 `Good starting value: 3`
 
-Te permite reducir el rango (en trozos) de donde aparecerán los mobs alrededor del jugador. Dependiendo del modo de juego de tu servidor y de su número de jugadores, puede que quieras reducir este valor junto con `spawn-limits` de [bukkit.yml]. Establecer este valor más bajo hará que parezca que hay más mobs a tu alrededor. Este valor debería ser menor o igual que la distancia de simulación, y nunca mayor que el rango de despawn / 16.
+Te permite reducir el rango (en chunks) de donde aparecerán los mobs alrededor del jugador. Dependiendo del modo de juego de tu servidor y de su número de jugadores, puede que quieras reducir este valor junto con `spawn-limits` de [bukkit.yml]. Establecer este valor más bajo hará que parezca que hay más mobs a tu alrededor. Este valor debería ser menor o igual que la distancia de simulación, y nunca mayor que el rango de despawn / 16.
 
 #### entity-activation-range
 
@@ -270,7 +270,7 @@ Good starting values:
         soft: 30
 ```
 
-Te permite ajustar los rangos de despawn de las entidades (en bloques). Baja esos valores para eliminar más rápido a los monstruos que están lejos del jugador. Deberías mantener el rango suave alrededor de `30` y ajustar el rango duro a un poco más de la distancia real de simulación, para que las criaturas no desaparezcan inmediatamente cuando el jugador va más allá del punto en el que un trozo está siendo cargado (esto funciona bien debido a `delay-chunk-unloads-by` en [paper-world configuration]). Cuando un mob está fuera del rango duro, será despawneado instantáneamente. Cuando esté entre el rango suave y el duro, tendrá una probabilidad aleatoria de despawn. Tu rango duro debe ser mayor que tu rango blando. Deberías ajustar esto de acuerdo a tu distancia de visión usando `(simulation-distance * 16) + 8`. Esto tiene en cuenta parcialmente los trozos que aún no se han descargado después de que el jugador los haya visitado.
+Te permite ajustar los rangos de despawn de las entidades (en bloques). Baja esos valores para eliminar más rápido a los monstruos que están lejos del jugador. Deberías mantener el rango suave alrededor de `30` y ajustar el rango duro a un poco más de la distancia real de simulación, para que las criaturas no desaparezcan inmediatamente cuando el jugador va más allá del punto en el que un trozo está siendo cargado (esto funciona bien debido a `delay-chunk-unloads-by` en [paper-world configuration]). Cuando un mob está fuera del rango duro, será despawneado instantáneamente. Cuando esté entre el rango suave y el duro, tendrá una probabilidad aleatoria de despawn. Tu rango duro debe ser mayor que tu rango blando. Deberías ajustar esto de acuerdo a tu distancia de visión usando `(simulation-distance * 16) + 8`. Esto tiene en cuenta parcialmente los chunks que aún no se han descargado después de que el jugador los haya visitado.
 
 #### per-player-mob-spawns
 
@@ -514,7 +514,7 @@ Good starting values:
       villager-trade: true
 ```
 
-El valor por defecto de esta opción obliga a los mapas recién generados a buscar estructuras inexploradas, que suelen estar en trozos aún no generados. Establecer esto a `true` hace que los mapas puedan llevar a las estructuras que fueron descubiertas anteriormente. Si no cambias esto a `true` puedes experimentar que el servidor se cuelgue o se cuelgue al generar nuevos mapas del tesoro. villager-trade" es para mapas comerciados por aldeanos y "loot-tables" se refiere a cualquier cosa que genere botín dinámicamente como cofres del tesoro, cofres de mazmorras, etc.
+El valor por defecto de esta opción obliga a los mapas recién generados a buscar estructuras inexploradas, que suelen estar en chunks aún no generados. Establecer esto a `true` hace que los mapas puedan llevar a las estructuras que fueron descubiertas anteriormente. Si no cambias esto a `true` puedes experimentar que el servidor se cuelgue o se cuelgue al generar nuevos mapas del tesoro. villager-trade" es para mapas comerciados por aldeanos y "loot-tables" se refiere a cualquier cosa que genere botín dinámicamente como cofres del tesoro, cofres de mazmorras, etc.
 
 #### tick-rates.grass-spread
 
@@ -591,9 +591,9 @@ Se recomienda utilizar el generador de banderas de inicio [flags.sh](https://fla
 
 Además, añadir la bandera beta `--add-modules=jdk.incubator.vector` antes de `-jar` en tus banderas de inicio puede mejorar el rendimiento. Esta bandera permite a Pufferfish usar instrucciones SIMD en tu CPU, haciendo algunas matemáticas más rápidas. Actualmente, sólo se utiliza para hacer el renderizado en mapas de plugins de juegos (como imageonmaps) posiblemente 8 veces más rápido.
 
-# "Too good to be true" plugins
+# """Muy buenos para ser verdad""" plugins
 
-## Plugins removing ground items
+## Plugins que eliminan items del suelo
 
 Absolutamente innecesarios ya que pueden ser reemplazados por [merge-radius](#merge-radius) y [alt-item-despawn-rate](#alt-item-despawn-rate) y francamente, son menos configurables que las configuraciones básicas del servidor. Tienden a utilizar más recursos escaneando y eliminando elementos que no eliminándolos en absoluto.
 
@@ -601,19 +601,19 @@ Absolutamente innecesarios ya que pueden ser reemplazados por [merge-radius](#me
 
 Es muy difícil justificar su uso. Apilar entidades creadas de forma natural causa más lag que no apilarlas debido a que el servidor está constantemente intentando crear más mobs. El único caso de uso "aceptable" es para los spawners en servidores con una gran cantidad de spawners.
 
-## Plugins enabling/disabling other plugins
+## Plugins que activan o desactivan plugins
 
-Cualquier cosa que active o desactive plugins en tiempo de ejecución es extremadamente peligrosa. Cargar un plugin así puede causar errores fatales con los datos de rastreo y desactivar un plugin puede conducir a errores debido a la eliminación de la dependencia. El comando `/reload` sufre exactamente los mismos problemas y puedes leer más sobre ellos en [me4502's blog post](https://madelinemiller.dev/blog/problem-with-reload/)
+Cualquier cosa que active o desactive plugins en tiempo de ejecución es extremadamente peligroso. Cargar un plugin así puede causar errores fatales con los datos de rastreo y desactivar un plugin puede conducir a errores debido a la eliminación de la dependencia. El comando `/reload` sufre exactamente los mismos problemas y puedes leer más sobre ellos en [me4502's blog post](https://madelinemiller.dev/blog/problem-with-reload/)
 
-# What's lagging? - measuring performance
+# Midiendo Rendimiento
 
 ## mspt
 
-Paper ofrece un comando `/mspt` que te dirá cuánto tiempo ha tardado el servidor en calcular los ticks recientes. Si el primer y segundo valor que ves son inferiores a 50, ¡enhorabuena! Su servidor no se está retrasando. Si el tercer valor es superior a 50, significa que ha habido al menos un tick que ha tardado más. Esto es completamente normal y ocurre de vez en cuando, así que no te asustes.
+Paper ofrece un comando `/mspt` que te dirá cuánto tiempo ha tardado el servidor en calcular los ticks recientes. Si el primer y segundo valor que ves son inferiores a **50**, ¡enhorabuena! Su servidor no tiene lag. Si el tercer valor es superior a 50, significa que ha habido al menos un tick que ha tardado más. Esto es completamente normal y ocurre de vez en cuando, así que no te asustes.
 
 ## Spark
 
-[Spark](https://spark.lucko.me/) es un plugin que te permite perfilar el uso de CPU y memoria de tu servidor. Puedes leer cómo usarlo [en su wiki](https://spark.lucko.me/docs/). También hay una guía sobre cómo encontrar la causa de los picos de lag [aquí](https://spark.lucko.me/docs/guides/Finding-lag-spikes).
+[Spark](https://spark.lucko.me/) es un plugin que te permite perfilar el uso de CPU y memoria de tu servidor. Puedes leer cómo usarlo [en su wiki](https://spark.lucko.me/docs/). También hay una guía sobre cómo encontrar la causa de los picos de lag [**aquí**](https://spark.lucko.me/docs/guides/Finding-lag-spikes).
 
 ## Timings
 
@@ -623,14 +623,18 @@ Para obtener los tiempos de tu servidor, sólo tienes que ejecutar el comando `/
 
 ---
 
-# Minecraft exploits and how to fix them
+# Minecraft exploits y como solucionarlos
 
-Para ver cómo solucionar los exploits que pueden causar picos de lag o caídas en un servidor de Minecraft, consulte [Aqui](https://github.com/YouHaveTrouble/minecraft-exploits-and-how-to-fix-them).
+Para ver cómo solucionar los exploits que pueden causar picos de lag o caídas en el servidor de Minecraft, consulte [**Aqui**](https://github.com/YouHaveTrouble/minecraft-exploits-and-how-to-fix-them).
 
----
+<!-- --- -->
 
-Basado en el proyecto original de [YouHaveTrouble](https://github.com/YouHaveTrouble/minecraft-optimization)
-Traduccion hecha por [Spectrasonic](https://github.com/spectrasonic117)
+# Por que no haces una guia de optimizacion de Mods
+
+Respuesta corta, no me gustan y desde hace años estoy efocado a plugins, es donde me he especializado
+
+<!-- Basado en el proyecto original de [YouHaveTrouble](https://github.com/YouHaveTrouble/minecraft-optimization)
+Traduccion hecha por [Spectrasonic](https://github.com/spectrasonic117) -->
 
 [`SOG`]: https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/
 [server.properties]: https://minecraft.wiki/w/Server.properties

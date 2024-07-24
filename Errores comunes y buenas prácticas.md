@@ -1,8 +1,8 @@
 # Errores comunes y buenas prácticas
 
-Este artículo pretende explicar los escollos más comunes a los que se enfrentan los propietarios de servidores.
+Este artículo pretende explicar los cosas más comunes a los que se enfrentan los admins de servidores de Minecraft.
 
-## Siempre **haz Copia de seguridad**
+## Siempre **haz Copia de seguridad [Backup]**
 
 Hay dos tipos de personas: las que hacen copias de seguridad y las que empezarán a hacerlas. Es sólo cuestión de tiempo que experimentes una pérdida de datos. Haz siempre copias para evitar perder tus mundos o los datos de tus plugins. Puedes aplicar esto a cualquier flujo de trabajo relacionado con la informática, no sólo a minecraft.
 
@@ -12,7 +12,7 @@ Si utilizas versiones de software obsoletas, corres el riesgo de que tus jugador
 
 ## No ejecutes más Bukkit/Spigot
 
-Bukkit y Spigot están básicamente en modo mantenimiento. Se actualizan cada vez que hay una nueva versión y si se encuentra un exploit crítico, pero no añaden ninguna actualización de rendimiento. Esto significa que cualquier problema de rendimiento que puedas experimentar en esos softwares nunca mejorará con el tiempo. Para evitarlo, actualice a [Paper](https://papermc.io/downloads) o [Purpur](https://purpurmc.org/downloads). Los plugins Bukkit/Spigot funcionarán igual de bien (quizá incluso mejor) con el software de servidor mencionado. Si no lo hacen, entonces es seguro asumir que el desarrollador del plugin está haciendo cosas que no debería o hizo un trabajo negligente al crear su plugin. También añaden parches de optimización como un sistema de carga de trozos que puede aprovechar múltiples hilos de cpu o un ajuste que permite al servidor marcar menos trozos de los que realmente envía al jugador. Consulta la [guía principal de optimización](https://github.com/spectrasonic117/minecraft-optimization) para más detalles.
+Bukkit y Spigot están básicamente en modo mantenimiento. Se actualizan cada vez que hay una nueva versión y si se encuentra un exploit crítico, pero no añaden ninguna actualización de rendimiento. Esto significa que cualquier problema de rendimiento que puedas experimentar en esos softwares nunca mejorará con el tiempo. Para evitarlo, utilice [Paper](https://papermc.io/downloads) o [Purpur](https://purpurmc.org/downloads). Los plugins Bukkit/Spigot funcionarán igual de bien (quizá incluso mejor) con el software de servidor mencionado. Si no lo hacen, entonces es seguro asumir que el desarrollador del plugin está haciendo cosas que no debería o hizo un trabajo negligente al crear su plugin. También añaden parches de optimización como un sistema de carga de chunks que puede aprovechar múltiples hilos de cpu o un ajuste que permite al servidor marcar menos chunks de los que realmente envía al jugador. Consulta la [guía principal de optimización](https://github.com/spectrasonic117/minecraft-optimization) para más detalles.
 
 ## Evite el alojamiento compartido si es posible
 
@@ -20,6 +20,8 @@ Los alojamientos compartidos suelen ser la opción más barata, y eso es por una
 
 ## Evite Datapacks que usen funciones de comando.
 
-Los datapacks que ejecutan comandos son extremadamente lentos. Puede que no sea mucho con pocos jugadores, pero eso no escala bien con el número de jugadores y hará que tu servidor se ralentice rápidamente a medida que ganes jugadores. Los paquetes de datos que modifican biomas, tablas de botín, etc. están bien. Es mejor que busques un plugin alternativo.
+Los datapacks que ejecutan comandos son extremadamente lentos. Puede que no sea mucho con pocos jugadores, pero eso no escala bien con el número de jugadores y hará que tu servidor se ralentice rápidamente a medida que ganes jugadores. Los paquetes de datos que modifican biomas, tablas de botín, etc. están bien. Aunque es mejor buscar un plugin alternativo.
 
-Debes evitar absolutamente los discos duros (HDDs). Sus velocidades son simplemente demasiado lento para justificar la ejecución de un servidor en ellos desde Minecraft es pesado en las operaciones de E / S (especialmente con altas distancias de visión y un mayor número de jugadores). Una unidad de estado sólido (SSD) es una opción mucho mejor debido a que es mucho más rápido de E / S.
+## Tipo de Almacenamiento
+
+Debes evitar absolutamente los discos duros (HDDs). Sus velocidades son simplemente demasiado lento para justificar la ejecución de un servidor en Minecraft es pesado en las operaciones de I/O (especialmente con altas distancias de visión y un mayor número de jugadores). Una unidad de estado sólido (SSD) es una opción mucho mejor debido a que es mucho más rápido de I/O.
