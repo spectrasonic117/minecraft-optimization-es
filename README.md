@@ -75,7 +75,7 @@ Puedes habilitar el sistema de keepalive alternativo de Purpur para que los juga
 
 `Good starting value: 4`
 
-La distancia de simulación es la distancia en chunks alrededor del jugador que el servidor marcará. Esencialmente es la distancia desde el jugador a la que sucederán las cosas. Esto incluye hornos de fundición, cultivos y árboles jóvenes creciendo, etc. Esta es una opción que querrás poner baja a propósito, en algún lugar alrededor de `3` o `4`, debido a la existencia de `view-distance`. Esto permite cargar más chunks sin marcarlos. Esto permite a los jugadores ver más lejos sin el mismo impacto en el rendimiento.
+La distancia de simulación es la distancia en chunks alrededor del jugador que el servidor marcará. Esencialmente es la distancia desde el jugador a la que sucederán las cosas. Esto incluye hornos de fundición, cultivos y árboles jóvenes creciendo, etc. Esta es una opción que querrás poner baja a propósito, en algún lugar alrededor de `3` o `4`, debido a la existencia de `view-distance`. Esto permite cargar más chunks. Esto permite a los jugadores ver más lejos sin el mismo impacto en el rendimiento.
 
 #### view-distance
 
@@ -208,7 +208,7 @@ Good starting values:
       flying-monsters: 48
 ```
 
-Puedes establecer a qué distancia del jugador debe estar una entidad para que haga tick (hacer cosas). La reducción de estos valores ayuda al rendimiento, pero puede dar lugar a turbas irresponsables hasta que el jugador se acerca mucho a ellos. Reducir demasiado este valor puede romper ciertas granjas de mobs; las granjas de hierro son la víctima más común.
+Puedes establecer a qué distancia del jugador debe estar una entidad para que haga tick (hacer cosas). La reducción de estos valores ayuda al rendimiento, pero puede dar lugar a inconsistencias hasta que el jugador se acerca mucho a ellos. Reducir demasiado este valor puede romper ciertas granjas de mobs; las granjas de hierro son la víctima más común.
 
 #### entity-tracking-range
 
